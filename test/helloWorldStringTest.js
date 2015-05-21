@@ -48,6 +48,13 @@ stringAlgorithm.solve(function (result) {
 
     stringAlgorithm.solve(function (result) {
         console.log('result', result);
+
+        options.selectionStrategy = Genetical.RANK;
+        stringAlgorithm = new Genetical(options);
+
+        stringAlgorithm.solve(function (result) {
+            console.log('result', result);
+        });
     });
 });
 
@@ -89,7 +96,7 @@ function fitnessEvaluator(candidate, callback) {
 }
 
 function terminationCondition(stats) {
-    return (stats.bestScore === 0) || stats.generation === 1000;
+    return (stats.bestScore === 0) || stats.generation === 5000;
 }
 
 function crossover(parent1, parent2, points, generator, callback) {
