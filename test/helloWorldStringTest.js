@@ -54,6 +54,17 @@ stringAlgorithm.solve(function (result) {
 
         stringAlgorithm.solve(function (result) {
             console.log('result', result);
+
+            options.selectionStrategy = Genetical.TOURNAMENT;
+            options.selectionStrategyOptions = {
+                tournamentSelection: 0.7
+            };
+
+            stringAlgorithm = new Genetical(options);
+
+            stringAlgorithm.solve(function (result) {
+                console.log('result', result);
+            });
         });
     });
 });
