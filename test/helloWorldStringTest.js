@@ -1,56 +1,69 @@
 var Genetical = require('../lib/genetical');
 
 var stringAlgorithm = new Genetical({
-    populationSize: 200,
-    candidateFactory: candidateFactory,
+    populationSize: 100,
+    populationFactory: populationFactory,
     terminationCondition: terminationCondition,
     fitnessEvaluator: fitnessEvaluator,
     natural: false,
-    crossover: crossover,
-    mutationProbability : 0.02,
-    mutate: mutate,
-    elitism: 0.05
+    evolutionOptions: {
+        crossover: crossover,
+        mutate: mutate,
+        mutationProbability : 0.02
+    },
+    elitism: 0.05,
+    seed: 1
 });
 
 var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
 var solution = 'HELLO WORLD';
 
-stringAlgorithm.on('error', function (err) {
-    console.log('error', err);
+stringAlgorithm.on('initial population created', function (population) {
+    console.log('initial population created', population);
 });
 
-stringAlgorithm.on('init', function (population) {
-    console.log('init', population);
+stringAlgorithm.on('population evaluated', function (population) {
+    //console.log('population evaluated', population);
+});
+
+stringAlgorithm.on('stats updated', function (stats) {
+    console.log('stats updated', stats.generation, stats.bestCandidate);
+});
+
+stringAlgorithm.on('error', function (err) {
+    console.log('error', err);
 });
 
 stringAlgorithm.on('evolution', function (generation, population, solution) {
     console.log('evolution', generation, solution);
 });
 
-stringAlgorithm.evolve(function (result) {
+stringAlgorithm.solve(function (result) {
     console.log('result', result);
 });
 
-function candidateFactory(callback) {
+function populationFactory(generator, callback) {
     var string = '';
 
     for( var i=0; i < solution.length; i++ ) {
-        string += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+        string += alphabet.charAt(Math.floor(generator.random() * alphabet.length));
     }
 
     return callback(null, {value: string});
 }
 
-function mutate(candidate, callback) {
-    var index = getRandomInt(candidate.value.length - 1);
-    var charIndex = getRandomInt(alphabet.length - 1);
-    var char = candidate.value.charAt(charIndex);
-    candidate.value = setCharAt(candidate.value, index, char);
-    callback(candidate);
-}
+function mutate(candidate, mutationProbability, generator, callback) {
+    for (var i = 0; i < candidate.value.length; i++)
+    {
+        if (generator.random() < mutationProbability)
+        {
+            var charIndex = getRandomInt(0, alphabet.length - 1, generator);
+            var char = alphabet.charAt(charIndex);
+            candidate.value = setCharAt(candidate.value, i, char);
+        }
+    }
 
-function setCharAt(string, index, char) {
-    return string.substr(0, index) + char + string.substr(index+char.length);
+    callback(candidate);
 }
 
 function fitnessEvaluator(candidate, callback) {
@@ -66,17 +79,17 @@ function fitnessEvaluator(candidate, callback) {
     return callback(null, errors);
 }
 
-function terminationCondition() {
-    return (this.solution && this.solution.score === 0) || this.generation === 1000;
+function terminationCondition(stats) {
+    return (stats.bestScore === 0) || stats.generation === 1000;
 }
 
-function crossover(parent1, parent2, points, callback) {
+function crossover(parent1, parent2, points, generator, callback) {
     var child1 = {value: parent1.value};
     var child2 = {value: parent2.value};
 
     for (var i = 0; i < points; i++)
     {
-        var crossoverIndex = (1 + getRandomInt(parent1.value.length - 1));
+        var crossoverIndex = (1 + getRandomInt(0, parent1.value.length - 1, generator));
         for (var j = 0; j < crossoverIndex; j++)
         {
             var temp = child1.value.charAt(j);
@@ -88,11 +101,10 @@ function crossover(parent1, parent2, points, callback) {
     return callback([child1, child2]);
 }
 
-function getRandomInt(min, max) {
-    if (!max) {
-        max = min;
-        min = 0;
-    }
+function setCharAt(string, index, char) {
+    return string.substr(0, index) + char + string.substr(index+char.length);
+}
 
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+function getRandomInt(min, max, generator) {
+    return Math.floor(generator.random() * (max - min + 1)) + min;
 }
