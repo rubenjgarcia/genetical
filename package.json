@@ -1,0 +1,30 @@
+{
+  "name": "genetical",
+  "version": "0.1.0",
+  "main": "lib/genetical.js",
+  "description": "An implementation of Genetic Algorithms for Node JS",
+  "license": "MIT",
+  "author": {
+    "name": "Ruben Garcia",
+    "email": "rubenjgarciab@gmail.com",
+    "url": "https://github.com/rubenjgarcia"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rubenjgarcia/genetical.git"
+  },
+  "keywords": [
+    "genetic algorithm nodejs",
+    "genetics algorithm nodejs",
+    "genetic algorithm node",
+    "genetics algorithm node",
+    "genetic nodejs",
+    "genetics nodejs",
+    "genetic node",
+    "genetics node"
+  ],
+  "dependencies": {
+    "async": "^0.9.2",
+    "lodash": "^3.8.0"
+  }
+}
