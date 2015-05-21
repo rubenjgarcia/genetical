@@ -1,5 +1,5 @@
 # genetical
-An implementation of Genetic Algorithms for Node JS
+An implementation of Genetics Algorithms for Node JS
 
 The library is based on https://github.com/dolphin278/genetic
 
