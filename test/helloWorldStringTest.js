@@ -1,6 +1,6 @@
 var Genetical = require('../lib/genetical');
 
-var stringAlgorithm = new Genetical({
+var options = {
     populationSize: 100,
     populationFactory: populationFactory,
     terminationCondition: terminationCondition,
@@ -12,8 +12,10 @@ var stringAlgorithm = new Genetical({
         mutationProbability : 0.02
     },
     elitism: 0.05,
-    seed: 1
-});
+    seed: 2
+};
+
+var stringAlgorithm = new Genetical(options);
 
 var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
 var solution = 'HELLO WORLD';
@@ -40,6 +42,13 @@ stringAlgorithm.on('evolution', function (generation, population, solution) {
 
 stringAlgorithm.solve(function (result) {
     console.log('result', result);
+
+    options.selectionStrategy = Genetical.STOCHASTICUNIVERSALSAMPLING;
+    stringAlgorithm = new Genetical(options);
+
+    stringAlgorithm.solve(function (result) {
+        console.log('result', result);
+    });
 });
 
 function populationFactory(generator, callback) {
