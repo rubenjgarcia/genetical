@@ -1,8 +1,6 @@
 # genetical
 An implementation of Genetics Algorithms for Node JS
 
-The library is based on https://github.com/dolphin278/genetic
-
 ## Install
 
 You can install using Node Package Manager (npm):

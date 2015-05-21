@@ -64,6 +64,14 @@ stringAlgorithm.solve(function (result) {
 
             stringAlgorithm.solve(function (result) {
                 console.log('result', result);
+
+                options.selectionStrategy = Genetical.SIGMASCALING;
+
+                stringAlgorithm = new Genetical(options);
+
+                stringAlgorithm.solve(function (result) {
+                    console.log('result', result);
+                });
             });
         });
     });
