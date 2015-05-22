@@ -77,7 +77,7 @@ stringAlgorithm.solve(function (result) {
     });
 });
 
-function populationFactory(generator, callback) {
+function populationFactory(population, populationSize, generator, callback) {
     var string = '';
 
     for( var i=0; i < solution.length; i++ ) {

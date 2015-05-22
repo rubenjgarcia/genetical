@@ -40,7 +40,7 @@ ga.solve(function (result) {
     console.log('result', result);
 });
 
-function populationFactory(generator, callback) {
+function populationFactory(population, populationSize, generator, callback) {
     var candidate = {
         a: getRandomInt(1, 30, generator),
         b: getRandomInt(1, 30, generator),
