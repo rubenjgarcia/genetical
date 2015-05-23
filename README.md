@@ -60,6 +60,7 @@ You must define several options:
   * mean: Arithmetic mean
   * standardDeviaton: Standard deviation of the scores
   * generation: Actual generation
+  * time: Seconds since start
 * fitnessEvaluator: (required) A function to evaluate the candidates: `function fitnessEvaluator(candidate, callback)`
   * candidate: The candidate to evaluate
   * callback: Callback function to pass evaluated score. First argument is `errors` and second argument is the candidate`score`
