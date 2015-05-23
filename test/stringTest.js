@@ -11,6 +11,11 @@ var options = {
         mutate: mutate,
         mutationProbability : 0.02
     },
+    islandOptions: {
+        islands: 5,
+        migration: 0.1,
+        epoch: 10
+    },
     elitism: 0.05,
     seed: 2
 };
@@ -18,10 +23,11 @@ var options = {
 var stringAlgorithm = new Genetical(options);
 
 var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
-var solution = 'HELLO WORLD';
+var solution = process.argv[2] || 'HELLO WORLD';
+solution = /^[zA-Z\s]*$/.test(solution) ? solution.toUpperCase() : 'HELLO WORLD';
 
 stringAlgorithm.on('initial population created', function (population) {
-    console.log('initial population created', population);
+    //console.log('initial population created', population);
 });
 
 stringAlgorithm.on('population evaluated', function (population) {
@@ -29,31 +35,27 @@ stringAlgorithm.on('population evaluated', function (population) {
 });
 
 stringAlgorithm.on('stats updated', function (stats) {
-    console.log('stats updated', stats.generation, stats.bestCandidate);
+    //console.log('stats updated', stats.generation, stats.bestCandidate);
 });
 
 stringAlgorithm.on('error', function (err) {
     console.log('error', err);
 });
 
-stringAlgorithm.on('evolution', function (generation, population, solution) {
-    console.log('evolution', generation, solution);
-});
-
-stringAlgorithm.solve(function (result) {
-    console.log('result', result);
+stringAlgorithm.solve(function (bestCandidate, generation) {
+    console.log('Best Candidate', bestCandidate, 'Generation', generation);
 
     options.selectionStrategy = Genetical.STOCHASTICUNIVERSALSAMPLING;
     stringAlgorithm = new Genetical(options);
 
-    stringAlgorithm.solve(function (result) {
-        console.log('result', result);
+    stringAlgorithm.solve(function (bestCandidate, generation) {
+        console.log('Best Candidate', bestCandidate, 'Generation', generation);
 
         options.selectionStrategy = Genetical.RANK;
         stringAlgorithm = new Genetical(options);
 
-        stringAlgorithm.solve(function (result) {
-            console.log('result', result);
+        stringAlgorithm.solve(function (bestCandidate, generation) {
+            console.log('Best Candidate', bestCandidate, 'Generation', generation);
 
             options.selectionStrategy = Genetical.TOURNAMENT;
             options.selectionStrategyOptions = {
@@ -62,15 +64,15 @@ stringAlgorithm.solve(function (result) {
 
             stringAlgorithm = new Genetical(options);
 
-            stringAlgorithm.solve(function (result) {
-                console.log('result', result);
+            stringAlgorithm.solve(function (bestCandidate, generation) {
+                console.log('Best Candidate', bestCandidate, 'Generation', generation);
 
                 options.selectionStrategy = Genetical.SIGMASCALING;
 
                 stringAlgorithm = new Genetical(options);
 
-                stringAlgorithm.solve(function (result) {
-                    console.log('result', result);
+                stringAlgorithm.solve(function (bestCandidate, generation) {
+                    console.log('Best Candidate', bestCandidate, 'Generation', generation);
                 });
             });
         });

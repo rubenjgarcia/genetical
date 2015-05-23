@@ -11,13 +11,18 @@ var options = {
         mutate: mutate,
         mutationProbability : 0.1
     },
+    islandOptions: {
+        islands: 5,
+        migration: 0.1,
+        epoch: 10
+    },
     seed: 2
 };
 
 var ga = new Genetical(options);
 
 ga.on('initial population created', function (population) {
-    console.log('initial population created', population);
+    //console.log('initial population created', population);
 });
 
 ga.on('population evaluated', function (population) {
@@ -25,19 +30,48 @@ ga.on('population evaluated', function (population) {
 });
 
 ga.on('stats updated', function (stats) {
-    console.log('stats updated', stats.generation, stats.bestCandidate);
+    //console.log('stats updated', stats.generation, stats.bestCandidate);
 });
 
 ga.on('error', function (err) {
     console.log('error', err);
 });
 
-ga.on('evolution', function (generation, population, solution) {
-    console.log('evolution', generation, solution);
-});
+ga.solve(function (bestCandidate, generation) {
+    console.log('Best Candidate', bestCandidate, 'Generation', generation);
 
-ga.solve(function (result) {
-    console.log('result', result);
+    options.selectionStrategy = Genetical.STOCHASTICUNIVERSALSAMPLING;
+    ga = new Genetical(options);
+
+    ga.solve(function (bestCandidate, generation) {
+        console.log('Best Candidate', bestCandidate, 'Generation', generation);
+
+        options.selectionStrategy = Genetical.RANK;
+        ga = new Genetical(options);
+
+        ga.solve(function (bestCandidate, generation) {
+            console.log('Best Candidate', bestCandidate, 'Generation', generation);
+
+            options.selectionStrategy = Genetical.TOURNAMENT;
+            options.selectionStrategyOptions = {
+                tournamentSelection: 0.7
+            };
+
+            ga = new Genetical(options);
+
+            ga.solve(function (bestCandidate, generation) {
+                console.log('Best Candidate', bestCandidate, 'Generation', generation);
+
+                options.selectionStrategy = Genetical.SIGMASCALING;
+
+                ga = new Genetical(options);
+
+                ga.solve(function (bestCandidate, generation) {
+                    console.log('Best Candidate', bestCandidate, 'Generation', generation);
+                });
+            });
+        });
+    });
 });
 
 function populationFactory(population, populationSize, generator, callback) {
@@ -108,7 +142,7 @@ function mutate (candidate, mutationProbability, generator, callback) {
 }
 
 function terminationCondition(stats) {
-    return (stats.bestScore === 0);
+    return (stats.bestScore === 0) || stats.generation === 5000;
 }
 
 function getRandomInt(min, max, generator) {

@@ -1,6 +1,6 @@
 {
   "name": "genetical",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "main": "lib/genetical.js",
   "description": "An implementation of Genetic Algorithms for Node JS",
   "license": "MIT",
@@ -25,7 +25,7 @@
   ],
   "dependencies": {
     "async": "^1.0.0",
-    "lodash": "^3.8.0",
+    "lodash": "^3.9.0",
     "mersenne-twister": "^1.0.1"
   }
 }
