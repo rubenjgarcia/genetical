@@ -6,6 +6,7 @@ var options = {
     terminationCondition: terminationCondition,
     fitnessEvaluator: fitnessEvaluator,
     natural: false,
+    evolutionStrategy: [Genetical.CROSSOVER, Genetical.MUTATION],
     evolutionOptions: {
         crossover: crossover,
         mutate: mutate,

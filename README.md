@@ -64,20 +64,21 @@ You must define several options:
   * candidate: The candidate to evaluate
   * callback: Callback function to pass evaluated score. First argument is `errors` and second argument is the candidate`score`
 * natural: (optional, default: `true`) If `true` the candidates with higher scores are better. If `false` the candidates with lower scores are better
+* evolutionStrategy: (optional, default: `[Genetical.CROSSOVER, Genetical.MUTATION]`) Evolution strategy or strategies to use. You can choose between `Genetical.CROSSOVER` or `Genetical.MUTATION`
 * selectionStrategy: (optional, default: `Genetical.ROULETTEWHEELSELECTION`) You can choose between `Genetical.ROULETTEWHEELSELECTION`, `Genetical.STOCHASTICUNIVERSALSAMPLING`, `Genetical.RANK`, `Genetical.TOURNAMENT` or `Genetical.SIGMASCALING`
   *  ROULETTEWHEELSELECTION: More info here http://en.wikipedia.org/wiki/Fitness_proportionate_selection
   *  STOCHASTICUNIVERSALSAMPLING: More info here http://en.wikipedia.org/wiki/Stochastic_universal_sampling
   *  RANK: More info here http://en.wikipedia.org/wiki/Reward-based_selection
   *  TOURNAMENT: More info here http://en.wikipedia.org/wiki/Tournament_selection If you choose this strategy you must define selectionStrategyOptions.tournamentSelection with a value higher than 0.5. That is the posibility that the fitter candidate will be chosen
   *  SIGMASCALING: I've couldn't find any article in wikipedia, sorry
-* evolutionOptions.crossover: (required) A function to do the crossover: `function crossover(parent1, parent2, points, randomGenerator, callback)`
+* evolutionOptions.crossover: (required if choose `Genetical.CROSSOVER` as evolutionStrategy) A function to do the crossover: `function crossover(parent1, parent2, points, randomGenerator, callback)`
   * parent1: The first parent
   * parent2: The second parent
   * points: Crossover points
   * randomGenerator: Random generator for generate numbers. For more information see https://github.com/cslarsen/mersenne-twister
   * callback: Callback function to pass children. It takes as an argument a child or a children array
 * evolutionOptions.crossoverPoints: (optional, default: 1) Crossover points to use in the crossover function
-* evolutionOptions.mutate: (required) A function to do the gen candidate mutation: `function mutate(candidate, mutationProbability, randomGenerator, callback)`
+* evolutionOptions.mutate: (required if choose `Genetical.MUTATION` as evolutionStrategy) A function to do the gen candidate mutation: `function mutate(candidate, mutationProbability, randomGenerator, callback)`
   * candidate: The candidate to mutate
   * mutationProbability: The mutation probability
   * randomGenerator: Random generator for generate numbers. For more information see https://github.com/cslarsen/mersenne-twister
