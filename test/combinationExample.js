@@ -53,7 +53,7 @@ ga.solve(function (bestCandidate, generation) {
         options.selectionStrategy = Genetical.RANK;
         ga = new Genetical(options);
 
-        ga.solve(function (bestCandidate, generation) {
+        ga.solve(population, function (bestCandidate, generation) {
             console.log('Best Candidate', bestCandidate, 'Generation', generation);
 
             options.selectionStrategy = Genetical.TOURNAMENT;
@@ -63,14 +63,14 @@ ga.solve(function (bestCandidate, generation) {
 
             ga = new Genetical(options);
 
-            ga.solve(function (bestCandidate, generation) {
+            ga.solve(population, function (bestCandidate, generation) {
                 console.log('Best Candidate', bestCandidate, 'Generation', generation);
 
                 options.selectionStrategy = Genetical.SIGMASCALING;
 
                 ga = new Genetical(options);
 
-                ga.solve(function (bestCandidate, generation) {
+                ga.solve(population, function (bestCandidate, generation) {
                     console.log('Best Candidate', bestCandidate, 'Generation', generation);
                 });
             });

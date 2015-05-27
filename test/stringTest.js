@@ -27,8 +27,12 @@ var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
 var solution = process.argv[2] || 'HELLO WORLD';
 solution = /^[zA-Z\s]*$/.test(solution) ? solution.toUpperCase() : 'HELLO WORLD';
 
-stringAlgorithm.on('initial population created', function (population) {
-    //console.log('initial population created', population);
+var population;
+stringAlgorithm.on('initial population created', function (initialPopulation) {
+    //console.log('initial population created', initialPopulation);
+    if (!population) {
+        population = initialPopulation;
+    }
 });
 
 stringAlgorithm.on('population evaluated', function (population) {
@@ -49,13 +53,13 @@ stringAlgorithm.solve(function (bestCandidate, generation) {
     options.selectionStrategy = Genetical.STOCHASTICUNIVERSALSAMPLING;
     stringAlgorithm = new Genetical(options);
 
-    stringAlgorithm.solve(function (bestCandidate, generation) {
+    stringAlgorithm.solve(population, function (bestCandidate, generation) {
         console.log('Best Candidate', bestCandidate, 'Generation', generation);
 
         options.selectionStrategy = Genetical.RANK;
         stringAlgorithm = new Genetical(options);
 
-        stringAlgorithm.solve(function (bestCandidate, generation) {
+        stringAlgorithm.solve(population, function (bestCandidate, generation) {
             console.log('Best Candidate', bestCandidate, 'Generation', generation);
 
             options.selectionStrategy = Genetical.TOURNAMENT;
@@ -65,14 +69,14 @@ stringAlgorithm.solve(function (bestCandidate, generation) {
 
             stringAlgorithm = new Genetical(options);
 
-            stringAlgorithm.solve(function (bestCandidate, generation) {
+            stringAlgorithm.solve(population, function (bestCandidate, generation) {
                 console.log('Best Candidate', bestCandidate, 'Generation', generation);
 
                 options.selectionStrategy = Genetical.SIGMASCALING;
 
                 stringAlgorithm = new Genetical(options);
 
-                stringAlgorithm.solve(function (bestCandidate, generation) {
+                stringAlgorithm.solve(population, function (bestCandidate, generation) {
                     console.log('Best Candidate', bestCandidate, 'Generation', generation);
                 });
             });

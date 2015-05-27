@@ -1,6 +1,6 @@
 {
   "name": "genetical",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "main": "lib/genetical.js",
   "description": "An implementation of Genetic Algorithms for Node JS",
   "license": "MIT",

@@ -41,8 +41,8 @@ var ga = new Genetical(options);
 
 You must define several options:
 
-* populationSize: (required) This is the initial population that will be created
-* populationFactory: (required) A function to create the population: `function populationFactory(populationLength, populationSize, randomGenerator, callback)`
+* populationSize: (required if you don't provide an initial population in solve method or if you use islands) This is the initial population that will be created
+* populationFactory: (required if you don't provide an initial population in solve method or if you use islands) A function to create the population: `function populationFactory(populationLength, populationSize, randomGenerator, callback)`
   * populationLength: Actual population 
   * populationSize: Population size passed in options
   * randomGenerator: Random generator for generate numbers. For more information see https://github.com/cslarsen/mersenne-twister
