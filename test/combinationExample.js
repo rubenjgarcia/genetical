@@ -21,8 +21,12 @@ var options = {
 
 var ga = new Genetical(options);
 
-ga.on('initial population created', function (population) {
-    //console.log('initial population created', population);
+var population;
+ga.on('initial population created', function (initialPopulation) {
+    //console.log('initial population created', initialPopulation);
+    if (!population) {
+        population = initialPopulation;
+    }
 });
 
 ga.on('population evaluated', function (population) {
@@ -43,7 +47,7 @@ ga.solve(function (bestCandidate, generation) {
     options.selectionStrategy = Genetical.STOCHASTICUNIVERSALSAMPLING;
     ga = new Genetical(options);
 
-    ga.solve(function (bestCandidate, generation) {
+    ga.solve(population, function (bestCandidate, generation) {
         console.log('Best Candidate', bestCandidate, 'Generation', generation);
 
         options.selectionStrategy = Genetical.RANK;

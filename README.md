@@ -90,20 +90,22 @@ You must define several options:
   * islands: (required) Number of islands to evolve
   * migration: (required) Percentage of population that migrate to another island
   * epoch: (required) Number of generations before a migration occurs
-* seed: If you want a repeatable random sequence provided a seed
+* seed: If you want a repeatable random sequence provide a seed
 
 To solve the algorithm use the solve function
 ```javascript
-ga.solve(function (bestCandidate, generation) {
+ga.solve(initialPopulation, function (bestCandidate, generation) {
     console.log('Best Candidate', bestCandidate, 'Generation', generation);
 });
 ````
+
+You can pass an initial population before callback if you're not using islands
 
 ## Events
 You can subscribe to these events:
 * initial population created: It pass the initial population as argument once is generated
 * population evaluated: It pass the population every time is evaluated by the fitness evaluator
-* stats updated: It pass the stats every time the stats are updated, after and evaluate the initital population and after every time is evaluated the population once is evolved
+* stats updated: It pass the stats every time the stats are updated, after evaluate the initital population and after every time the population is evaluated once is evolved
 * error: It pass the error when an error is thrown
 
 ```javascript
